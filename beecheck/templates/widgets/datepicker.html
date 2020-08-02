@@ -1,0 +1,11 @@
+{% include "django/forms/widgets/input.html" %}
+
+<script type="text/javascript">
+    $(function () {
+        $('.datepicker').datepicker({
+            inline: true,
+            sideBySide: true,
+            format: 'DD/MM/YYYY'
+        });
+    });
+</script>

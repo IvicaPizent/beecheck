@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+						<h1>Košnica {{ hive.hive_number }}</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<a href="{% url 'add_check' hive.hive_id %}" class="btn btn-primary">Dodaj provjeru</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'add_queen' hive.hive_id %}" class="btn btn-success">Dodaj maticu</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'update_hive' hive.hive_id %}" class="btn btn-info">Uredi broj</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'delete_hive' hive.hive_id %}" class="btn btn-danger">Izbriši košnicu</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'hive_chart' hive.hive_id %}" class="btn btn-warning">Graf</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'location' hive.location_id.pk %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-6">
+					<h4>Provjera košnice:</h4>
+					<hr>
+					{% for c in checks %}
+						<h5><a href="{% url 'check' c.check_id %}">{{ c.created_on.day }}.{{ c.created_on.month }}.{{ c.created_on.year }}.</a></h5>
+					{% endfor %}
+				</div>
+				<div class="col-md-6">
+					<h4>Provjera matice:</h4>
+					<hr>
+					{% for q in queens %}
+						<h5><a href="{% url 'queen' q.queen_id %}">{{ q.queen_added_date.day }}.{{ q.queen_added_date.month }}.{{ q.queen_added_date.year }}. - {{ q.queen_removed_date.day }}.{{ q.queen_removed_date.month }}.{{ q.queen_removed_date.year }}.</a></h5>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1>Uredi broj košnice</h1><hr>
+
+					<form method="post">
+						{% csrf_token %}
+						<div class="form-group">
+							Broj košnice: {{ form.hive_number }}
+						</div>
+						<hr>
+						<input type="submit" class="btn btn-primary" value="Potvrdi">
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

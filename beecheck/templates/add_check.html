@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1>Dodavanje provjere</h1><hr>
+
+					<form method="post">
+						{% csrf_token %}
+
+						<div class="form-group">
+							{% bootstrap_label 'Datum provjere:' %}{% bootstrap_field form.created_on show_label=Fasle placeholder='' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Otvoreni med:' %}{% bootstrap_field form.opened_honey show_label=Fasle placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Zatvoreni med:' %}{% bootstrap_field form.closed_honey show_label=Fasle placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Otvoreno leglo:' %}{% bootstrap_field form.opened_brood show_label=Fasle placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Zatvoreno leglo:' %}{% bootstrap_field form.closed_brood show_label=Fasle placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Trutovsko leglo:' %}{% bootstrap_field form.drone_cell show_label=Fasle placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Matičnjak:' %}{% bootstrap_field form.queen_cell show_label=Fasle placeholder='Broj matičnjaka' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Pelud:' %}{% bootstrap_field form.pollen_cell show_label=Fasle placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Opažanje:' %}{% bootstrap_field form.observation show_label=Fasle placeholder='' %}
+						</div>
+						<hr>
+						<input type="submit" class="btn btn-primary" value="Dodaj">
+						<a href="{% url 'hive' hive.pk %}" class="btn btn-secondary">Natrag</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

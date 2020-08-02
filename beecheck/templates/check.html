@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+						<h1>Provjera {{ check.created_on.day }}.{{ check.created_on.month }}.{{ check.created_on.year }}.</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+						<h4>Otvoreni med: {{ check.opened_honey }} [okvir/a]</h4>
+						<h4>Zatvoreni med: {{ check.closed_honey }} [okvir/a]</h4>
+						<h4>Otvoreno leglo: {{ check.opened_brood }} [okvir/a]</h4>
+						<h4>Zatvoreno leglo: {{ check.closed_brood }} [okvir/a]</h4>
+						<h4>Trutovsko leglo: {{ check.drone_cell }} [okvir/a]</h4>
+						<h4>Matičnjak: {{ check.queen_cell }}</h4>
+						<h4>Pelud: {{ check.pollen_cell }} [okvir/a]</h4>
+						<h4>Opažanje: </h4><h5>{{ check.observation }}</h5>
+						<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<a href="{% url 'delete_check' check.check_id %}" class="btn btn-danger">Izbriši provjeru</a>
+				</div>
+				<div class="col-md-2">
+					<a href="{% url 'update_check' check.check_id %}" class="btn btn-info">Uredi provjeru</a>
+				</div>
+				<div class="col-md-2">
+					<a href="{% url 'hive' check.hive_id.pk %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

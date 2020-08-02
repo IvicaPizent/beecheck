@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1>Brisanje matice</h1><hr>
+				</div>
+			</div>
+			<form method="post">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<h6>Jeste li sigurni da želite obrisati maticu <b>{{ object }}</b>?</h6>
+						</div>
+						<hr>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<input type="submit" class="btn btn-danger" value="Izbriši">					
+					</div>
+					<div class="col">
+						<a href="{% url 'queen' object.pk %}" class="btn btn-primary">Natrag</a>	
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

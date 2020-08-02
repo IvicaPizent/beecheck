@@ -1,0 +1,8 @@
+venv/
+*.sublime-project
+*.sublime-workspace
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover

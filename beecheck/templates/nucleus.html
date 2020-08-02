@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+						<h1>Oplodnjak {{ nucleus.nucleus_number }}</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<a href="{% url 'add_nucleus_check' nucleus.nucleus_id %}" class="btn btn-primary">Dodaj provjeru</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'add_nucleus_queen' nucleus.nucleus_id %}" class="btn btn-success">Dodaj maticu</a>
+				</div>
+
+				<div class="col">
+					<a href="{% url 'location' nucleus.location_id.pk %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-6">
+					<h4>Provjera oplodnjaka:</h4>
+					<hr>
+					{% for c in nucleus_checks %}
+						<h5><a href="{% url 'nucleus_check' c.nucleus_check_id %}">{{ c.created_on.day }}.{{ c.created_on.month }}.{{ c.created_on.year }}.</a></h5>
+					{% endfor %}
+				</div>
+				<div class="col-md-6">
+					<h4>Provjera matice:</h4>
+					<hr>
+					{% for q in nucleus_queens %}
+						<h5><a href="{% url 'nucleus_queen' q.pk %}">{{ q.queen_added_date.day }}.{{ q.queen_added_date.month }}.{{ q.queen_added_date.year }}. - {{ q.queen_removed_date.day }}.{{ q.queen_removed_date.month }}.{{ q.queen_removed_date.year }}.</a></h5>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

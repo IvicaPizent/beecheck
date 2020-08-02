@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+						<h1>Provjera matice {{ nucleus_queen.queen_added_date.day }}.{{ nucleus_queen.queen_added_date.month }}.{{ nucleus_queen.queen_added_date.year }}. - {{ nucleus_queen.queen_removed_date.day }}.{{ nucleus_queen.queen_removed_date.month }}.{{ nucleus_queen.queen_removed_date.year }}.</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+						<h4>Ime matice: <b>{{ nucleus_queen.queen_name }}</b></h4>
+						<h4>Datum dodavanja matice: <b>{{ nucleus_queen.queen_added_date.day }}.{{ nucleus_queen.queen_added_date.month }}.{{ nucleus_queen.queen_added_date.year }}.</b></h4>
+						<h4>Datum poništenja matice: <b>{{ nucleus_queen.queen_removed_date.day }}.{{ nucleus_queen.queen_removed_date.month }}.{{ nucleus_queen.queen_removed_date.year }}.</b></h4>
+						<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<a href="{% url 'delete_nucleus_queen' nucleus_queen.pk %}" class="btn btn-danger">Izbriši maticu</a>
+				</div>
+				<div class="col">
+					<a href="{% url 'nucleus' nucleus_queen.nucleus_id.pk %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

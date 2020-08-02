@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1>Dodavanje provjere</h1><hr>
+
+					<form method="post">
+						{% csrf_token %}
+
+						<div class="form-group">
+							{% bootstrap_label 'Datum provjere:' %}{% bootstrap_field form.created_on show_label=Fasle placeholder='' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Opažanje:' %}{% bootstrap_field form.observation show_label=Fasle placeholder='' %}
+						</div>
+						<hr>
+						<input type="submit" class="btn btn-primary" value="Dodaj">
+						<a href="{% url 'nucleus' nucleus.pk %}" class="btn btn-secondary">Natrag</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

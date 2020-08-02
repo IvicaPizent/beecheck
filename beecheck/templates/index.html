@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2>Popis mjesta:</h2>
+				</div>
+			</div>
+			<hr>
+			{% if loc|length > 0 %}
+				<div class="row">
+					<div class="col">
+						{% for l in loc %}
+							<h5><a href="{% url 'location' l.location_id %}">{{ l }}</a></h5>
+						{% endfor %}
+						<hr>
+					</div>
+				</div>
+			{% endif %}
+			<div class="row">
+				<div class="col">
+					<a href="{% url 'add_location' %}" class="btn btn-primary">Dodaj mjesto</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

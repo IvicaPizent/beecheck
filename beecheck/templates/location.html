@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2>{{ loc }}</h2>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<a href="{% url 'add_hive' loc.location_id %}" class="btn btn-primary">Dodaj košnicu</a>
+				</div>
+				<div class="col-md-2">
+					<a href="{% url 'add_nucleus' loc.location_id %}" class="btn btn-success">Dodaj oplodnjak</a>
+				</div>
+				<div class="col-md-2">
+					<a href="{% url 'delete_location' loc.location_id %}" class="btn btn-danger">Izbriši mjesto</a>
+				</div>
+				<div class="col-md-2">
+					<a href="{% url 'update_location' loc.location_id %}" class="btn btn-info">Uredi naziv</a>
+				</div>
+				<div class="col-md-1">
+					<a href="{% url 'index' %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col">
+					{% for h in hives %}
+						<h5><a href="{% url 'hive' h.hive_id %}">Košnica {{ h.hive_number }}</a></h5>
+					{% endfor %}
+				</div>
+				<div class="col">
+					{% for n in nucleuses %}
+						<h5><a href="{% url 'nucleus' n.nucleus_id %}">Oplodnjak {{ n.nucleus_number }}</a></h5>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

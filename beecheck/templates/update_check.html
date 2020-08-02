@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1>Uredi provjeru</h1><hr>
+				</div>
+			</div>
+			<form method="post">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{% bootstrap_label 'Datum provjere:' %}{% bootstrap_field form.created_on show_label=False placeholder='' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Otvoreni med:' %}{% bootstrap_field form.opened_honey show_label=False placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Zatvoreni med:' %}{% bootstrap_field form.closed_honey show_label=False placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Otvoreno leglo:' %}{% bootstrap_field form.opened_brood show_label=False placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Zatvoreno leglo:' %}{% bootstrap_field form.closed_brood show_label=False placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Trutovsko leglo:' %}{% bootstrap_field form.drone_cell show_label=False placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Matičnjak:' %}{% bootstrap_field form.queen_cell show_label=False placeholder='Broj matičnjaka' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Pelud:' %}{% bootstrap_field form.pollen_cell show_label=False placeholder='Broj okvir/a' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Opažanje:' %}{% bootstrap_field form.observation show_label=False placeholder='' %}
+						</div>	
+					</div>
+					<!--<div class="col">
+						{% if form.opened_honey.errors %}
+							Otvoreni med: {{ form.opened_honey.errors|escape }}
+						{% endif %}
+						{% if form.closed_honey.errors %}
+							Zatvoreni med: {{ form.closed_honey.errors|escape }}
+						{% endif %}
+						{% if form.opened_brood.errors %}
+							Otvoreno leglo: {{ form.opened_brood.errors|escape }}
+						{% endif %}
+						{% if form.closed_brood.errors %}
+							Zatvoreno leglo: {{ form.closed_brood.errors|escape }}
+						{% endif %}
+						{% if form.drone_cell.errors %}
+							Trutovsko leglo: {{ form.drone_cell.errors|escape }}
+						{% endif %}
+						{% if form.queen_cell.errors %}
+							Matičnjak: {{ form.queen_cell.errors|escape }}
+						{% endif %}
+						{% if form.pollen_cell.errors %}
+							Pelud: {{ form.pollen_cell.errors|escape }}
+						{% endif %}
+					</div>-->
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col">
+						<input type="submit" class="btn btn-primary" value="Potvrdi">
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

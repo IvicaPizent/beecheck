@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1>Dodavanje provjere matice</h1><hr>
+
+					<form method="post">
+						{% csrf_token %}
+
+						<div class="form-group">
+							{% bootstrap_label 'Ime matice:' %}{% bootstrap_field form.queen_name show_label=False placeholder='' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Datum dodavanja:' %}{% bootstrap_field form.queen_added_date show_label=False placeholder='' %}
+						</div>
+						<div class="form-group">
+							{% bootstrap_label 'Datum poništenja:' %}{% bootstrap_field form.queen_removed_date show_label=False placeholder='' %}
+						</div>
+						<hr>
+						<input type="submit" class="btn btn-primary" value="Dodaj">
+						<a href="{% url 'nucleus' nucleus.pk %}" class="btn btn-secondary">Natrag</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

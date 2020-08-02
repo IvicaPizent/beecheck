@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+						<h1>Provjera {{ nucleus_check.created_on.day }}.{{ nucleus_check.created_on.month }}.{{ nucleus_check.created_on.year }}.</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+						<h4>Opažanje: </h4><h5>{{ nucleus_check.observation }}</h5>
+						<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					<a href="{% url 'nucleus' nucleus_check.nucleus_id.pk %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

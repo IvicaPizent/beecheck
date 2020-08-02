@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load random_numbers %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.css">
+
+		<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	</head>
+	<body>
+		<div class="row align-items-center">
+			<div class="col-md-4 offset-md-2">
+				<h1>Stanje u košnici {{ hive_num }}</h1>
+			</div>
+			<div class="col-md-1 offset-md-2">
+				<a href="{% url 'hive' hive %}" class="btn btn-secondary">Natrag</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-10 offset-md-1">
+				<hr>
+			</div>
+		</div><br>
+		<div class="col-md-10 offset-md-1">
+			<canvas id="hiveChart" style="width: 95%; height: 85%; margin-right: auto; margin-left: auto; display: block;"></canvas>
+
+			<script>
+				var canvas = document.getElementById("hiveChart");
+				var ctx = canvas.getContext('2d');
+
+				var data = {
+					labels: [{% for i in labels %}'{{ i.check_date }}',{% endfor %}],
+					datasets: [
+						{
+							label: 'Otvoreni med [okvir/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.opened_honey }},{% endfor %}],
+						},
+						{
+							label: 'Zatvoreni med [okvir/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.closed_honey }},{% endfor %}],
+						},
+						{
+							label: 'Otvoreno leglo [okvir/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.opened_brood }},{% endfor %}],
+						},
+						{
+							label: 'Zatvoreno leglo [okvir/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.closed_brood }},{% endfor %}],
+						},
+						{
+							label: 'Trutovsko leglo [okvir/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.drone_cell }},{% endfor %}],
+						},
+						{
+							label: 'Matičnjak [komad/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.queen_cell }},{% endfor %}],
+						},
+						{
+							label: 'Pelud [okvir/a]',
+							fill: false,
+							lineTension: 0.1,
+							borderColor: 'rgba({% random_int 0 255 %}, {% random_int 0 255 %}, {% random_int 0 255 %}, 1)',
+							data: [{% for i in data %}{{ i.pollen_cell }},{% endfor %}],
+						},
+					]
+				};
+
+				var options = {
+					responsive: false,
+					scales: {
+				        yAxes: [{
+				            ticks: {
+				            	beginAtZero: true,
+				            },
+				            scaleLabel: {
+				                 display: true,
+				                 labelString: 'Graf stanja u košnici',
+				                 fontSize: 32 
+				            }
+				        }],          
+					}  
+				};
+
+				var hiveChart = new Chart(ctx, {
+			  		type: 'line',
+			  		data: data,
+			  		options: options
+				});
+
+			</script>
+		</div>
+		<div class="row">
+			<div class="col-md-10 offset-md-1">
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 offset-md-2">
+				{% if result.opened_honey < 0 %}
+					<p style='font-size:24px;'>Otvoreni med: {{ result.opened_honey }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.opened_honey == 0 %}
+					<p style='font-size:24px;'>Otvoreni med: {{ result.opened_honey }}</p>
+				{% elif result.opened_honey > 0 %}
+					<p style='font-size:24px;'>Otvoreni med: {{ result.opened_honey }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+			<div class="col-md-3 offset-md-2">
+				{% if result.closed_honey < 0 %}
+					<p style='font-size:24px;'>Zatvoreni med: {{ result.closed_honey }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.closed_honey == 0 %}
+					<p style='font-size:24px;'>Zatvoreni med: {{ result.closed_honey }}</p>
+				{% elif result.closed_honey > 0 %}
+					<p style='font-size:24px;'>Zatvoreni med: {{ result.closed_honey }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 offset-md-2">
+				{% if result.opened_brood < 0 %}
+					<p style='font-size:24px;'>Otvoreno leglo: {{ result.opened_brood }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.opened_brood == 0 %}
+					<p style='font-size:24px;'>Otvoreno leglo: {{ result.opened_brood }}</p>
+				{% elif result.opened_brood > 0 %}
+					<p style='font-size:24px;'>Otvoreno leglo: {{ result.opened_brood }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+			<div class="col-md-3 offset-md-2">
+				{% if result.closed_brood < 0 %}
+					<p style='font-size:24px;'>Zatvoreno leglo: {{ result.closed_brood }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.closed_brood == 0 %}
+					<p style='font-size:24px;'>Zatvoreno leglo: {{ result.closed_brood }}</p>
+				{% elif result.closed_brood > 0 %}
+					<p style='font-size:24px;'>Zatvoreno leglo: {{ result.closed_brood }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 offset-md-2">
+				{% if result.drone_cell < 0 %}
+					<p style='font-size:24px;'>Trutovsko leglo: {{ result.drone_cell }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.drone_cell == 0 %}
+					<p style='font-size:24px;'>Trutovsko leglo: {{ result.drone_cell }}</p>
+				{% elif result.drone_cell > 0 %}
+					<p style='font-size:24px;'>Trutovsko leglo: {{ result.drone_cell }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+			<div class="col-md-3 offset-md-2">
+				{% if result.queen_cell < 0 %}
+					<p style='font-size:24px;'>Matičnjak: {{ result.queen_cell }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.queen_cell == 0 %}
+					<p style='font-size:24px;'>Matičnjak: {{ result.queen_cell }}</p>
+				{% elif result.queen_cell > 0 %}
+					<p style='font-size:24px;'>Matičnjak: {{ result.queen_cell }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 offset-md-2">
+				{% if result.pollen_cell < 0 %}
+					<p style='font-size:24px;'>Pelud: {{ result.pollen_cell }} <i class='fas fa-long-arrow-alt-down' style='font-size:24px;color:red'></i></p>
+				{% elif result.pollen_cell == 0 %}
+					<p style='font-size:24px;'>Pelud: {{ result.pollen_cell }}</p>
+				{% elif result.pollen_cell > 0 %}
+					<p style='font-size:24px;'>Pelud: {{ result.pollen_cell }} <i class='fas fa-long-arrow-alt-up' style='font-size:24px;color:green'></i></p>
+				{% endif %}
+			</div>
+		</div><br>			
+	</body>
+</html>
+
+{% endblock page_content %}
