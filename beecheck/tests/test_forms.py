@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from beecheck.forms import AddLocationForm, AddHiveForm, AddNucleusForm, AddCheckForm, AddNucleusCheckForm, AddQueenForm
+from beecheck.forms import *
 
 class AddLocationFormTest(TestCase):
 	@classmethod
@@ -131,3 +131,10 @@ class AddQueenFormTest(TestCase):
 	def test_queen_removed_date_field_required(self):
 		self.assertFalse(self.form.fields['queen_removed_date'].required)
 
+class AddNoteFormTest(TestCase):
+	@classmethod
+	def setUpTestData(cls):
+		cls.form = AddNoteForm()
+
+	def test_text_field_max_length(self):
+		self.assertEqual(self.form.fields['text'].max_length, 2000)

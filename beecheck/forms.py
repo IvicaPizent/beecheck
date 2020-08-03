@@ -1,6 +1,6 @@
 from django import forms
 
-from .widgets import DatePickerInput
+from bootstrap_datepicker_plus import DatePickerInput
 
 class AddLocationForm(forms.Form):
 	location_name = forms.CharField(max_length=100)
@@ -12,7 +12,7 @@ class AddNucleusForm(forms.Form):
 	nucleus_number = forms.IntegerField()
 	
 class AddCheckForm(forms.Form):
-	created_on = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput(attrs={'autocomplete': 'off'}))
+	created_on = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput(format='%d/%m/%Y'))
 	opened_honey = forms.DecimalField(max_digits=5, decimal_places=3, required=False)
 	closed_honey = forms.DecimalField(max_digits=5, decimal_places=3, required=False)
 	opened_brood = forms.DecimalField(max_digits=5, decimal_places=3, required=False)
@@ -23,10 +23,13 @@ class AddCheckForm(forms.Form):
 	observation = forms.CharField(max_length=2000, widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}), required=False)
 
 class AddNucleusCheckForm(forms.Form):
-	created_on = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput(attrs={'autocomplete': 'off'}))
+	created_on = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput(format='%d/%m/%Y'))
 	observation = forms.CharField(max_length=2000, widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}), required=False)
 
 class AddQueenForm(forms.Form):
 	queen_name = forms.CharField(max_length=100)
-	queen_added_date = forms.DateField(input_formats=['%d/%m/%Y'])
-	queen_removed_date = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+	queen_added_date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput(format='%d/%m/%Y'))
+	queen_removed_date = forms.DateField(input_formats=['%d/%m/%Y'], widget=DatePickerInput(format='%d/%m/%Y'), required=False)
+
+class AddNoteForm(forms.Form):
+	text = forms.CharField(max_length=2000, widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}))

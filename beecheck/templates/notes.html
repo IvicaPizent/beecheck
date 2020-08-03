@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BeeCheck</title>
+
+		<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 offset-md-1">
+					<h1>Bilješke:</h1><hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-5 offset-md-1">
+					<a href="{% url 'add_note' hive.hive_id %}" class="btn btn-primary">Dodaj bilješku</a>
+				</div>
+				<div class="col-md-5 offset-md-1">
+					<a href="{% url 'hive' hive.hive_id %}" class="btn btn-secondary">Natrag</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 offset-md-1">
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 offset-md-1">
+					{% for n in notes %}
+						<h5>{{ n.created_on.day }}.{{ n.created_on.month }}.{{ n.created_on.year }}.&emsp;<a href="{% url 'delete_note' n.note_id %}"><i class="fas fa-trash-alt"></i></a>&emsp;<a href="{% url 'update_note' n.note_id %}"><i class="fas fa-edit"></i></a></h5>
+						<small class="offset-md-1 text-break">{{ n.text }}</small><hr>
+						<br><br>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock page_content %}

@@ -31,6 +31,9 @@
 					<a href="{% url 'hive_chart' hive.hive_id %}" class="btn btn-warning">Graf</a>
 				</div>
 				<div class="col">
+					<a href="{% url 'notes' hive.hive_id %}" class="btn btn-light">Bilješke</a>
+				</div>
+				<div class="col">
 					<a href="{% url 'location' hive.location_id.pk %}" class="btn btn-secondary">Natrag</a>
 				</div>
 			</div>

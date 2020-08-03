@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from datetime import date
 
-from beecheck.models import Location, Hive, Nucleus, Check, NucleusCheck, Queen, NucleusQueen
+from beecheck.models import *
 
 class LocationModelTest(TestCase):
 	@classmethod
@@ -326,3 +326,35 @@ class NucleusQueenModelTest(TestCase):
 	def test_get_absolute_url(self):
 		nucleus_queen = NucleusQueen.objects.get(nucleus_queen_id=1)
 		self.assertEqual(nucleus_queen.get_absolute_url(), '/beecheck/nucleus_queen/1/')
+
+class NoteModelTest(TestCase):
+	@classmethod
+	def setUpTestData(cls):
+		location = Location.objects.create(location_name='Dummy')
+		hive = Hive.objects.create(hive_number='1', location_id=location)
+		Note.objects.create(text='lorem ipsum', hive_id=hive)
+
+	def test_text_label(self):
+		note = Note.objects.get(note_id=1)
+		field_label = note._meta.get_field('text').verbose_name
+		self.assertEqual(field_label, 'text')
+
+	def test_text_max_length(self):
+		note = Note.objects.get(note_id=1)
+		max_length = note._meta.get_field('text').max_length
+		self.assertEqual(max_length, 2000)
+
+	def test_text_blank(self):
+		note = Note.objects.get(note_id=1)
+		blank = note._meta.get_field('text').blank
+		self.assertTrue(blank)
+
+	def test_note_hive_id(self):
+		hive = Hive.objects.get(hive_id=1)
+		note = Note.objects.get(note_id=1)
+		self.assertEqual(note.hive_id.pk, hive.hive_id)
+
+	def test_get_absolute_url(self):
+		note = Note.objects.get(note_id=1)
+		self.assertEqual(note.get_absolute_url(), '/beecheck/notes/1/')
+		

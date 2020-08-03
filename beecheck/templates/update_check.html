@@ -14,6 +14,9 @@
 					<h1>Uredi provjeru</h1><hr>
 				</div>
 			</div>
+
+			{{ form.media }}
+
 			<form method="post">
 				{% csrf_token %}
 				<div class="row">
@@ -46,29 +49,6 @@
 							{% bootstrap_label 'Opažanje:' %}{% bootstrap_field form.observation show_label=False placeholder='' %}
 						</div>	
 					</div>
-					<!--<div class="col">
-						{% if form.opened_honey.errors %}
-							Otvoreni med: {{ form.opened_honey.errors|escape }}
-						{% endif %}
-						{% if form.closed_honey.errors %}
-							Zatvoreni med: {{ form.closed_honey.errors|escape }}
-						{% endif %}
-						{% if form.opened_brood.errors %}
-							Otvoreno leglo: {{ form.opened_brood.errors|escape }}
-						{% endif %}
-						{% if form.closed_brood.errors %}
-							Zatvoreno leglo: {{ form.closed_brood.errors|escape }}
-						{% endif %}
-						{% if form.drone_cell.errors %}
-							Trutovsko leglo: {{ form.drone_cell.errors|escape }}
-						{% endif %}
-						{% if form.queen_cell.errors %}
-							Matičnjak: {{ form.queen_cell.errors|escape }}
-						{% endif %}
-						{% if form.pollen_cell.errors %}
-							Pelud: {{ form.pollen_cell.errors|escape }}
-						{% endif %}
-					</div>-->
 				</div>
 				<hr>
 				<div class="row">

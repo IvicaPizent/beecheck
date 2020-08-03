@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'beecheck',
 	'bootstrap3',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ TIME_ZONE = 'Europe/Zagreb'
 
 USE_I18N = True
 
-USE_L10N = False
+USE_L10N = True
 
 USE_TZ = True
 
