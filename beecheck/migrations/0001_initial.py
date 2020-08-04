@@ -66,15 +66,6 @@ class Migration(migrations.Migration):
                 ('nucleus_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='beecheck.Nucleus')),
             ],
         ),
-        migrations.CreateModel(
-            name='Note',
-            fields=[
-                ('note_id', models.AutoField(primary_key=True, serialize=False)),
-                ('created_on', models.DateTimeField(auto_now_add=True)),
-                ('text', models.CharField(blank=True, max_length=2000)),
-                ('location_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='beecheck.Location')),
-            ],
-        ),
         migrations.AddField(
             model_name='hive',
             name='location_id',
