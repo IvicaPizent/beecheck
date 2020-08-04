@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'b^=%qm^rsp&kqf(@cf!h&3eyru26aa1yt+6%erg(14ejy5sw6r'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'beecheck.herokuapp.com',
