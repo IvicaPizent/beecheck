@@ -159,10 +159,10 @@ class AddCheckFormView(FormView):
 	form_class = AddCheckForm
 	template_name = 'add_check.html'
 
-	def get_form(self):
+	'''def get_form(self):
 		form = super().get_form()
 		form.fields['created_on'].widget = DatePickerInput()
-		return form
+		return form'''
 
 	def get_context_data(self, **kwargs):
 		hive = Hive.objects.filter(hive_id__contains=self.kwargs['hive'])
