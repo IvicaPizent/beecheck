@@ -1,1 +1,1 @@
-web: gunicorn beecheck.wsgi --log-file -
+web: gunicorn core.wsgi --log-file -
