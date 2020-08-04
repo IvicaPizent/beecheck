@@ -100,7 +100,7 @@ class Note(models.Model):
 	note_id = models.AutoField(primary_key=True)
 	created_on = models.DateTimeField(auto_now_add=True)
 	text = models.CharField(max_length=2000, blank=True)
-	hive_id = models.ForeignKey(Hive, on_delete=models.CASCADE)
+	location_id = models.ForeignKey(Location, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return str(self.created_on.strftime('%d.%m.%Y.'))

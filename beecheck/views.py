@@ -96,11 +96,11 @@ def nucleus_queen(request, nucleus_queen):
 	return render(request, 'nucleus_queen.html', context)
 
 def notes(request, notes):
-	hive = Hive.objects.get(hive_id=notes)
-	notes = Note.objects.filter(hive_id=notes).order_by('-created_on')
+	location = Location.objects.get(location_id=notes)
+	notes = Note.objects.filter(location_id=notes).order_by('-created_on')
 
 	context = {
-		'hive': hive,
+		'location': location,
 		'notes': notes,
 	}
 
@@ -158,11 +158,6 @@ class AddNucleusFormView(FormView):
 class AddCheckFormView(FormView):
 	form_class = AddCheckForm
 	template_name = 'add_check.html'
-
-	'''def get_form(self):
-		form = super().get_form()
-		form.fields['created_on'].widget = DatePickerInput()
-		return form'''
 
 	def get_context_data(self, **kwargs):
 		hive = Hive.objects.filter(hive_id__contains=self.kwargs['hive'])
@@ -283,19 +278,19 @@ class AddNoteFormView(FormView):
 	template_name = 'add_note.html'
 
 	def get_context_data(self, **kwargs):
-		hive = Hive.objects.filter(hive_id__contains=self.kwargs['hive'])
-		kwargs['hive'] = hive[0]
+		loc = Location.objects.filter(location_id__contains=self.kwargs['location'])
+		kwargs['loc'] = loc[0]
 		return super().get_context_data(**kwargs)
 
 	def form_valid(self, form):
-		hive = Hive.objects.filter(hive_id__contains=self.kwargs['hive'])
+		loc = Location.objects.filter(location_id__contains=self.kwargs['location'])
 
 		note_data = Note(
 			text=form.cleaned_data['text'],
-			hive_id=hive[0],
+			location_id=loc[0],
 		)
 		note_data.save()
-		return HttpResponseRedirect(reverse('notes', args=[hive[0].hive_id]))
+		return HttpResponseRedirect(reverse('notes', args=[loc[0].location_id]))
 
 class DeleteLocationView(DeleteView):
 	model = Location
@@ -400,7 +395,7 @@ class DeleteNoteView(DeleteView):
 
 	def get_success_url(self):
 		try:
-			return '{}'.format(reverse('notes', args=[self.object.__dict__['hive_id_id']]))
+			return '{}'.format(reverse('notes', args=[self.object.__dict__['location_id_id']]))
 		except Exception as e:
 			raise ImproperlyConfigured('No URL to redirect to. Provide a success_url.')
 
@@ -428,8 +423,28 @@ class UpdateCheckView(UpdateView):
 
 	def get_form(self):
 		form = super().get_form()
-		form.fields['created_on'].widget = DatePickerInput()
+		form.fields['created_on'].widget = DatePickerInput(format='%d/%m/%Y')
 		return form
+
+	'''def form_valid(self, form):
+		check = Check.objects.get(check_id=self.kwargs['pk'])
+		hive = Hive.objects.get(hive_id=check.hive_id_id)
+
+		print('++++', form.cleaned_data['created_on'].strftime('%d.%m.%Y.'))
+		form = Check(
+			created_on=form.cleaned_data['created_on'].strftime('%d.%m.%Y.'),
+			opened_honey=form.cleaned_data['opened_honey'],
+			closed_honey=form.cleaned_data['closed_honey'],
+			opened_brood=form.cleaned_data['opened_brood'],
+			closed_brood=form.cleaned_data['closed_brood'],
+			drone_cell=form.cleaned_data['drone_cell'],
+			queen_cell=form.cleaned_data['queen_cell'],
+			pollen_cell=form.cleaned_data['pollen_cell'],
+			observation=form.cleaned_data['observation'],
+			hive_id=hive,
+		)
+		form.save()
+		return super().form_valid(form)'''
 
 	def get_success_url(self):
 		return reverse('check', args=[self.kwargs['pk']])
@@ -492,4 +507,4 @@ class UpdateNoteView(UpdateView):
 		return super().get_context_data(**context)
 
 	def get_success_url(self):
-		return reverse('notes', args=[self.object.__dict__['hive_id_id']])
+		return reverse('notes', args=[Note.objects.get(note_id=self.kwargs['pk']).location_id_id])

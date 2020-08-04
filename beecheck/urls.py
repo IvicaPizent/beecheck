@@ -21,7 +21,7 @@ urlpatterns = [
 	path('add_nucleus_check/<int:nucleus>/', views.AddNucleusCheckFormView.as_view(), name='add_nucleus_check'),
 	path('add_queen/<int:hive>/', views.AddQueenFormView.as_view(), name='add_queen'),
 	path('add_nucleus_queen/<int:nucleus>/', views.AddNucleusQueenFormView.as_view(), name='add_nucleus_queen'),
-	path('add_note/<int:hive>/', views.AddNoteFormView.as_view(), name='add_note'),
+	path('add_note/<int:location>/', views.AddNoteFormView.as_view(), name='add_note'),
 
 	path('delete_location/<int:pk>/', views.DeleteLocationView.as_view(), name='delete_location'),
 	path('delete_hive/<int:pk>/', views.DeleteHiveView.as_view(), name='delete_hive'),

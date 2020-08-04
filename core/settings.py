@@ -7,7 +7,7 @@ SECRET_KEY = 'b^=%qm^rsp&kqf(@cf!h&3eyru26aa1yt+6%erg(14ejy5sw6r'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-	'beecheck2.herokuapp.com'
+	#'beecheck2.herokuapp.com'
 ]
 
 INSTALLED_APPS = [

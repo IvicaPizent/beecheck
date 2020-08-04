@@ -27,6 +27,9 @@
 				<div class="col-md-2">
 					<a href="{% url 'update_location' loc.location_id %}" class="btn btn-info">Uredi naziv</a>
 				</div>
+				<div class="col">
+					<a href="{% url 'notes' loc.location_id %}" class="btn btn-light">Bilješke</a>
+				</div>
 				<div class="col-md-1">
 					<a href="{% url 'index' %}" class="btn btn-secondary">Natrag</a>
 				</div>
