@@ -380,7 +380,7 @@ class DeleteNucleusQueenView(DeleteView):
 			raise ImproperlyConfigured('No URL to redirect to. Provide a success_url.')
 
 class DeleteNoteView(DeleteView):
-	model = Note
+	'''model = Note'''
 	template_name = 'delete_note.html'
 
 	def get_context_data(self, **kwargs):
@@ -492,7 +492,7 @@ class HiveChartView(TemplateView):
 		return context
 
 class UpdateNoteView(UpdateView):
-	model = Note
+	'''model = Note'''
 	template_name = 'update_note.html'
 	fields = ['text']
 
