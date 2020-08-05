@@ -3,7 +3,7 @@ from django import forms
 from bootstrap_datepicker_plus import DatePickerInput
 
 class AddLocationForm(forms.Form):
-	location_name = forms.CharField(max_length=100)
+	location_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'off'}))
 
 class AddHiveForm(forms.Form):
 	hive_number = forms.IntegerField()
