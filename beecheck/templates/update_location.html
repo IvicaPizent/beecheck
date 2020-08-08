@@ -15,7 +15,7 @@
 					<form method="post">
 						{% csrf_token %}
 						<div class="form-group">
-							Mjesto: {{ form.location_name }}
+							{% bootstrap_label 'Mjesto:' %}{% bootstrap_field form.location_name show_label=False placeholder='' %}
 						</div>
 						<hr>
 						<input type="submit" class="btn btn-primary" value="Potvrdi">

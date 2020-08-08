@@ -34,9 +34,6 @@ class AddCheckFormTest(TestCase):
 	def setUpTestData(cls):
 		cls.form = AddCheckForm()
 
-	def test_created_on_field_input_formats(self):
-		self.assertTrue(self.form.fields['created_on'].input_formats[0] == '%d/%m/%Y')
-
 	def test_opened_honey_field_max_digits(self):
 		self.assertEqual(self.form.fields['opened_honey'].max_digits, 5)
 
@@ -105,9 +102,6 @@ class AddNucleusCheckFormTest(TestCase):
 	def setUpTestData(cls):
 		cls.form = AddNucleusCheckForm()
 
-	def test_created_on_field_input_formats(self):
-		self.assertTrue(self.form.fields['created_on'].input_formats[0] == '%d/%m/%Y')	
-
 	def test_observation_field_max_digits(self):
 		self.assertEqual(self.form.fields['observation'].max_length, 2000)
 
@@ -121,12 +115,6 @@ class AddQueenFormTest(TestCase):
 
 	def test_queen_name_field_max_digits(self):
 		self.assertEqual(self.form.fields['queen_name'].max_length, 100)
-
-	def test_queen_added_date_field_input_formats(self):
-		self.assertTrue(self.form.fields['queen_added_date'].input_formats[0] == '%d/%m/%Y')
-
-	def test_queen_removed_date_field_input_formats(self):
-		self.assertTrue(self.form.fields['queen_removed_date'].input_formats[0] == '%d/%m/%Y')
 
 	def test_queen_removed_date_field_required(self):
 		self.assertFalse(self.form.fields['queen_removed_date'].required)

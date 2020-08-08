@@ -15,7 +15,7 @@
 					<form method="post">
 						{% csrf_token %}
 						<div class="form-group">
-							Broj košnice: {{ form.hive_number }}
+							{% bootstrap_label 'Broj košnice:' %}{% bootstrap_field form.hive_number show_label=False placeholder='' %}
 						</div>
 						<hr>
 						<input type="submit" class="btn btn-primary" value="Potvrdi">
