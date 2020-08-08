@@ -1,6 +1,9 @@
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 
 from bootstrap_datepicker_plus import DatePickerInput
+
+from .models import Location, Hive
 
 class AddLocationForm(forms.Form):
 	location_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'off'}))

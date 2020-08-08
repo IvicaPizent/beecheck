@@ -16,6 +16,7 @@
 					<form method="post">
 						{% csrf_token %}
 						<div class="form-group">
+							{% bootstrap_form_errors form %}
 							{% bootstrap_label 'Broj oplodnjaka:' %}{% bootstrap_field form.nucleus_number show_label=False placeholder='' %}
 						</div>
 						<hr>

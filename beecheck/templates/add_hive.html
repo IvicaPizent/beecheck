@@ -16,6 +16,7 @@
 					<form method="post">
 						{% csrf_token %}
 						<div class="form-group">
+							{% bootstrap_form_errors form %}
 							{% bootstrap_label 'Broj košnice:' %}{% bootstrap_field form.hive_number show_label=Fasle placeholder='' %}
 						</div>
 						<hr>

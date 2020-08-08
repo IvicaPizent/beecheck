@@ -111,10 +111,23 @@ class AddLocationFormView(FormView):
 	template_name = 'add_location.html'
 
 	def form_valid(self, form):
-		location_data = Location(
-			location_name=form.cleaned_data['location_name']
-		)
-		location_data.save()
+		try:
+			loc = Location.objects.all()
+			loc.get(location_name=form.cleaned_data['location_name'])
+		except ObjectDoesNotExist:
+			location_data = Location(
+				location_name=form.cleaned_data['location_name']
+			)
+			location_data.save()
+			is_valid = True
+
+		else:
+			is_valid = False
+
+		if not is_valid:
+			form.add_error(None, 'Mjesto s tim imenom već postoji!')
+			return self.form_invalid(form)
+
 		return HttpResponseRedirect(reverse('index'))
 
 class AddHiveFormView(FormView):
@@ -122,26 +135,32 @@ class AddHiveFormView(FormView):
 	template_name = 'add_hive.html'
 
 	def get_context_data(self, **kwargs):
-		loc = Location.objects.filter(location_id__contains=self.kwargs['location'])
+		loc = Location.objects.get(location_id=self.kwargs['location'])
 		kwargs['loc'] = loc[0]
 		return super().get_context_data(**kwargs)
 
 	def form_valid(self, form):
-		loc = Location.objects.filter(location_id__contains=self.kwargs['location'])
+		loc = Location.objects.get(location_id=self.kwargs['location'])
 
 		try:
 			hive = Hive.objects.filter(location_id__location_id=self.kwargs['location'])
-			print(hive.get(hive_number=form.cleaned_data['hive_number']))
+			hive.get(hive_number=form.cleaned_data['hive_number'])
+
 		except ObjectDoesNotExist:
 			hive_data = Hive(
-			hive_number=form.cleaned_data['hive_number'],
-			location_id=loc[0],
+				hive_number=form.cleaned_data['hive_number'],
+				location_id=loc[0],
 			)
 			hive_data.save()
-		else:
-			raise ValidationError('Invalid number - hive with that number already exists')
+			is_valid = True	
 
-		
+		else:
+			is_valid = False
+
+		if not is_valid:
+			form.add_error(None, 'Košnica s tim brojem već postoji!')
+			return self.form_invalid(form)
+
 		return HttpResponseRedirect(reverse('location', args=[loc[0].location_id]))
 
 class AddNucleusFormView(FormView):
@@ -149,18 +168,32 @@ class AddNucleusFormView(FormView):
 	template_name = 'add_nucleus.html'
 
 	def get_context_data(self, **kwargs):
-		loc = Location.objects.filter(location_id__contains=self.kwargs['location'])
+		loc = Location.objects.get(location_id=self.kwargs['location'])
 		kwargs['loc'] = loc[0]
 		return super().get_context_data(**kwargs)
 
 	def form_valid(self, form):
-		loc = Location.objects.filter(location_id__contains=self.kwargs['location'])
+		loc = Location.objects.get(location_id=self.kwargs['location'])
 
-		nucleus_data = Nucleus(
-			nucleus_number=form.cleaned_data['nucleus_number'],
-			location_id=loc[0],
-		)
-		nucleus_data.save()
+		try:
+			nucleus = Nucleus.objects.filter(location_id__location_id=self.kwargs['location'])
+			nucleus.get(nucleus_number=form.cleaned_data['nucleus_number'])
+		
+		except ObjectDoesNotExist:
+			nucleus_data = Nucleus(
+				nucleus_number=form.cleaned_data['nucleus_number'],
+				location_id=loc[0],
+			)
+			nucleus_data.save()
+			is_valid = True
+
+		else:
+			is_valid = False
+
+		if not is_valid:
+			form.add_error(None, 'Oplodnjak s tim brojem već postoji!')
+			return self.form_invalid(form)
+
 		return HttpResponseRedirect(reverse('location', args=[loc[0].location_id]))
 
 class AddCheckFormView(FormView):
@@ -173,56 +206,70 @@ class AddCheckFormView(FormView):
 		return form
 
 	def get_context_data(self, **kwargs):
-		hive = Hive.objects.filter(hive_id__contains=self.kwargs['hive'])
+		hive = Hive.objects.get(hive_id=self.kwargs['hive'])
 		kwargs['hive'] = hive[0]
 		return super().get_context_data(**kwargs)
 
 	def form_valid(self, form):
-		hive = Hive.objects.filter(hive_id__contains=self.kwargs['hive'])
+		hive = Hive.objects.get(hive_id=self.kwargs['hive'])
 
-		if form.cleaned_data['opened_honey'] == None:
-			opened_honey_default = '0.000'
-		else:
-			opened_honey_default = form.cleaned_data['opened_honey']
-		if form.cleaned_data['closed_honey'] == None:
-			closed_honey_default = '0.000'
-		else:
-			closed_honey_default = form.cleaned_data['closed_honey']
-		if form.cleaned_data['opened_brood'] == None:
-			opened_brood_default = '0.000'
-		else:
-			opened_brood_default = form.cleaned_data['opened_brood']
-		if form.cleaned_data['closed_brood'] == None:
-			closed_brood_default = '0.000'
-		else:
-			closed_brood_default = form.cleaned_data['closed_brood']
-		if form.cleaned_data['drone_cell'] == None:
-			drone_cell_default = '0.000'
-		else:
-			drone_cell_default = form.cleaned_data['drone_cell']
-		if form.cleaned_data['queen_cell'] == None:
-			queen_cell_default = '0'
-		else:
-			queen_cell_default = form.cleaned_data['queen_cell']
-		if form.cleaned_data['pollen_cell'] == None:
-			pollen_cell_default = '0.000'
-		else:
-			pollen_cell_default = form.cleaned_data['pollen_cell']
+		try:
+			check = Check.objects.filter(hive_id__hive_id=self.kwargs['hive'])
+			check.get(created_on=form.cleaned_data['created_on'])
+
+		except ObjectDoesNotExist:
+			if form.cleaned_data['opened_honey'] == None:
+				opened_honey_default = '0.000'
+			else:
+				opened_honey_default = form.cleaned_data['opened_honey']
+			if form.cleaned_data['closed_honey'] == None:
+				closed_honey_default = '0.000'
+			else:
+				closed_honey_default = form.cleaned_data['closed_honey']
+			if form.cleaned_data['opened_brood'] == None:
+				opened_brood_default = '0.000'
+			else:
+				opened_brood_default = form.cleaned_data['opened_brood']
+			if form.cleaned_data['closed_brood'] == None:
+				closed_brood_default = '0.000'
+			else:
+				closed_brood_default = form.cleaned_data['closed_brood']
+			if form.cleaned_data['drone_cell'] == None:
+				drone_cell_default = '0.000'
+			else:
+				drone_cell_default = form.cleaned_data['drone_cell']
+			if form.cleaned_data['queen_cell'] == None:
+				queen_cell_default = '0'
+			else:
+				queen_cell_default = form.cleaned_data['queen_cell']
+			if form.cleaned_data['pollen_cell'] == None:
+				pollen_cell_default = '0.000'
+			else:
+				pollen_cell_default = form.cleaned_data['pollen_cell']
 
 
-		check_data = Check(
-			created_on=form.cleaned_data['created_on'],
-			opened_honey=opened_honey_default,
-			closed_honey=closed_honey_default,
-			opened_brood=opened_brood_default,
-			closed_brood=closed_brood_default,
-			drone_cell=drone_cell_default,
-			queen_cell=queen_cell_default,
-			pollen_cell=pollen_cell_default,
-			observation=form.cleaned_data['observation'],
-			hive_id=hive[0],
-		)
-		check_data.save()
+			check_data = Check(
+				created_on=form.cleaned_data['created_on'],
+				opened_honey=opened_honey_default,
+				closed_honey=closed_honey_default,
+				opened_brood=opened_brood_default,
+				closed_brood=closed_brood_default,
+				drone_cell=drone_cell_default,
+				queen_cell=queen_cell_default,
+				pollen_cell=pollen_cell_default,
+				observation=form.cleaned_data['observation'],
+				hive_id=hive[0],
+			)
+			check_data.save()
+			is_valid = True
+
+		else:
+			is_valid = False
+
+		if not is_valid:
+			form.add_error(None, 'Provjera s tim datumom već postoji!')
+			return self.form_invalid(form)
+	
 		return HttpResponseRedirect(reverse('hive', args=[hive[0].hive_id]))
 
 class AddNucleusCheckFormView(FormView):
@@ -230,20 +277,34 @@ class AddNucleusCheckFormView(FormView):
 	template_name = 'add_nucleus_check.html'
 
 	def get_context_data(self, **kwargs):
-		nucleus = Nucleus.objects.filter(nucleus_id__contains=self.kwargs['nucleus'])
+		nucleus = Nucleus.objects.filter(nucleus_id=self.kwargs['nucleus'])
 		kwargs['nucleus'] = nucleus[0]
 		return super().get_context_data(**kwargs)
 
 	def form_valid(self, form):
-		nucleus = Nucleus.objects.filter(nucleus_id__contains=self.kwargs['nucleus'])
+		nucleus = Nucleus.objects.get(nucleus_id=self.kwargs['nucleus'])
 
-		nucleus_check_data = NucleusCheck(
-			created_on=form.cleaned_data['created_on'],
-			observation=form.cleaned_data['observation'],
-			nucleus_id=nucleus[0],
-		)
-		nucleus_check_data.save()
-		return HttpResponseRedirect(reverse('nucleus', args=[nucleus[0].nucleus_id]))
+		try:
+			nucleus_check = NucleusCheck.objects.filter(nucleus_id__nucleus_id=self.kwargs['nucleus'])
+			nucleus_check.get(created_on=form.cleaned_data['created_on'])
+
+		except ObjectDoesNotExist:
+			nucleus_check_data = NucleusCheck(
+				created_on=form.cleaned_data['created_on'],
+				observation=form.cleaned_data['observation'],
+				nucleus_id=nucleus,
+			)
+			nucleus_check_data.save()
+			is_valid = True
+
+		else:
+			is_valid = False
+
+		if not is_valid:
+			form.add_error(None, 'Provjera s tim datumom već postoji!')
+			return self.form_invalid(form)
+
+		return HttpResponseRedirect(reverse('nucleus', args=[nucleus.nucleus_id]))
 
 class AddQueenFormView(FormView):
 	form_class = AddQueenForm

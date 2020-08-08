@@ -19,6 +19,7 @@
 						{% csrf_token %}
 
 						<div class="form-group">
+							{% bootstrap_form_errors form %}
 							{% bootstrap_label 'Datum provjere:' %}{% bootstrap_field form.created_on show_label=Fasle placeholder='' %}
 						</div>
 						<div class="form-group">
